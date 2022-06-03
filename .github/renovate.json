@@ -1,0 +1,34 @@
+{
+  "extends": [
+      "config:base",
+      ":disableDependencyDashboard",
+      ":rebaseStalePrs"
+  ],
+  "addLabels": [
+      "type: dependencies"
+  ],
+  "groupName": "all dependencies",
+  "groupSlug": "all",
+  "packageRules": [
+      {
+          "matchPackageNames": ["k8s.io/client-go"],
+          "enabled": false
+      },
+      {
+          "automerge": true,
+          "groupName": "all dependencies",
+          "groupSlug": "all",
+          "matchPackagePatterns": [
+              "*"
+          ],
+          "matchUpdateTypes": [
+              "minor",
+              "patch",
+              "pin",
+              "digest"
+          ]
+      }
+  ],
+  "semanticCommits": "enabled",
+  "separateMajorMinor": false
+}
