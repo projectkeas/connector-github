@@ -1,4 +1,4 @@
-module github.com/projectkeas/.template-service
+module github.com/projectkeas/connector-github
 
 go 1.18
 

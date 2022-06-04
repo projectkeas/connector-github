@@ -2,5 +2,5 @@ FROM gcr.io/distroless/static
 ARG TARGETOS
 ARG TARGETARCH
 WORKDIR /app
-COPY ./app-${TARGETOS}-${TARGETARCH} /app/app
-ENTRYPOINT [ "/app/app" ]
+COPY ./connector-github-${TARGETOS}-${TARGETARCH} /app/connector-github
+ENTRYPOINT [ "/app/connector-github" ]

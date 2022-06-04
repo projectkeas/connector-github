@@ -8,12 +8,13 @@ import (
 )
 
 func main() {
-	app := server.New("appName")
+	app := server.New("connector-github")
 
 	app.WithEnvironmentVariableConfiguration("KEAS_")
 
-	app.WithConfigMap("config-1")
-	app.WithSecret("secret-1")
+	app.WithConfigMap("connector-github-cm")
+	app.WithRequiredSecret("connector-github-secret")
+	app.WithRequiredSecret("ingestion-secret")
 
 	app.ConfigureHandlers(func(f *fiber.App, server *server.Server) {
 		f.Get("/", func(c *fiber.Ctx) error {
