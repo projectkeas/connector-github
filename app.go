@@ -13,7 +13,8 @@ func main() {
 	app.WithEnvironmentVariableConfiguration("KEAS_")
 
 	app.WithConfigMap("connector-github-cm")
-	app.WithSecret("connector-github-secret")
+	app.WithRequiredSecret("connector-github-secret")
+	app.WithRequiredSecret("ingestion-secret")
 
 	app.ConfigureHandlers(func(f *fiber.App, server *server.Server) {
 		f.Get("/", func(c *fiber.Ctx) error {
