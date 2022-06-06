@@ -1,0 +1,45 @@
+package dataMapper
+
+func mapPullRequest(src map[string]interface{}) map[string]interface{} {
+	data := &map[string]interface{}{}
+
+	addToCollectionIfFoundAndNotNil(src, "author_association", data)
+	addToCollectionIfFoundAndNotNil(src, "active_lock_reason", data)
+	addToCollectionIfFoundAndTransformElements(src, "assignees", data, mapLogin)
+	addToCollectionIfFoundAndTransformElements(src, "requested_reviewers", data, mapLogin)
+	addToCollectionIfFoundAndTransformElements(src, "requested_teams", data, mapLogin)
+	addToCollectionIfFoundAndTransformElements(src, "labels", data, mapLabel)
+	addToCollectionIfFoundAndNotNil(src, "author_association", data)
+	addToCollectionIfFoundAndNotNil(src, "auto_merge", data)
+	addToCollectionIfFoundAndNotNilAndTransformMap(src, "base", data, mapRepositoryRef)
+	addToCollectionIfFoundAndNotNil(src, "body", data)
+	addToCollectionIfFoundAndNotNil(src, "closed_at", data)
+	addToCollectionIfFoundAndNotNil(src, "created_at", data)
+	addToCollectionIfFoundAndNotNil(src, "diff_url", data)
+	addToCollectionIfFoundAndNotNil(src, "draft", data)
+	addToCollectionIfFoundAndNotNilAndTransformMap(src, "head", data, mapRepositoryRef)
+	addToCollectionIfFoundAndNotNil(src, "id", data)
+	addToCollectionIfFoundAndNotNil(src, "labels", data)
+	addToCollectionIfFoundAndNotNil(src, "locked", data)
+	addToCollectionIfFoundAndNotNil(src, "merged", data)
+	addToCollectionIfFoundAndNotNil(src, "mergeable_state", data)
+	addToCollectionIfFoundAndNotNil(src, "merge_commit_sha", data)
+	addToCollectionIfFoundAndNotNil(src, "merged_at", data)
+	addToCollectionIfFoundAndNotNil(src, "maintainer_can_modify", data)
+	addToCollectionIfFoundAndNotNil(src, "commits", data)
+	addToCollectionIfFoundAndNotNil(src, "additions", data)
+	addToCollectionIfFoundAndNotNil(src, "deletions", data)
+	addToCollectionIfFoundAndNotNil(src, "changed_files", data)
+	addToCollectionIfFoundAndNotNilAndTransformMap(src, "milestone", data, mapMilestone)
+	addToCollectionIfFoundAndNotNil(src, "number", data)
+	addToCollectionIfFoundAndNotNil(src, "patch_url", data)
+	addToCollectionIfFoundAndNotNil(src, "rebaseable", data)
+	addToCollectionIfFoundAndNotNil(src, "merged_by", data)
+	addToCollectionIfFoundAndNotNil(src, "state", data)
+	addToCollectionIfFoundAndNotNil(src, "title", data)
+	addToCollectionIfFoundAndNotNil(src, "updated_at", data)
+	addToCollectionIfFoundAndNotNil(src, "html_url", data)
+	addToCollectionIfFoundAndNotNilAndTransformMap(src, "user", data, mapLogin)
+
+	return *data
+}

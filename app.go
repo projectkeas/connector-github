@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
+	"github.com/projectkeas/connector-github/handlers/hmac"
+	"github.com/projectkeas/connector-github/handlers/webhooks"
 	"github.com/projectkeas/sdks-service/server"
 )
 
@@ -16,12 +16,14 @@ func main() {
 	app.WithRequiredSecret("connector-github-secret")
 	app.WithRequiredSecret("ingestion-secret")
 
-	app.ConfigureHandlers(func(f *fiber.App, server *server.Server) {
-		f.Get("/", func(c *fiber.Ctx) error {
-			value := server.GetConfiguration().GetStringValueOrDefault("log.level", "not set")
-			return c.SendString(fmt.Sprintf("Hello, World 👋! Log Level is: %s", value))
-		})
+	app.WithInMemoryConfiguration("test", map[string]string{
+		"github.webhook.token": "Testing123!",
 	})
 
+	app.ConfigureHandlers(func(f *fiber.App, server *server.Server) {
+		f.Route("integrations/github", func(router fiber.Router) {
+			router.Post("/webhooks", hmac.NewSha256("X-Hub-Signature-256", server, "github.webhook.token"), webhooks.New(server))
+		})
+	})
 	app.Build().Run()
 }
