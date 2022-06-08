@@ -9,29 +9,30 @@ type collectionMapper func([]map[string]interface{}) []map[string]interface{}
 
 var (
 	mappers map[string]mapper = map[string]mapper{
-		"alert":             mapAlert,
-		"app":               mapApp,
-		"changes":           remapChanges,
-		"check_run":         mapCheckRun,
-		"check_suite":       mapCheckSuite,
-		"comment":           mapComment,
-		"create":            mapCreate,
-		"delete":            mapDelete,
-		"deployment":        mapDeployment,
-		"deployment_status": mapDeploymentStatus,
-		"discussion":        mapDiscussion,
-		"enterprise":        mapEnterprise,
-		"forkee":            mapRepository,
-		"installation":      mapInstallation,
-		"issue":             mapIssue,
-		"key":               mapDeployKey,
-		"label":             mapLabel,
-		"organization":      mapOrganization,
-		"pull_request":      mapPullRequest,
-		"repository":        mapRepository,
-		"review":            mapReview,
-		"rule":              mapRule,
-		"sender":            mapSender,
+		"alert":               mapAlert,
+		"app":                 mapApp,
+		"changes":             remapChanges,
+		"check_run":           mapCheckRun,
+		"check_suite":         mapCheckSuite,
+		"comment":             mapComment,
+		"create":              mapCreate,
+		"delete":              mapDelete,
+		"deployment":          mapDeployment,
+		"deployment_status":   mapDeploymentStatus,
+		"discussion":          mapDiscussion,
+		"enterprise":          mapEnterprise,
+		"forkee":              mapRepository,
+		"installation":        mapInstallation,
+		"issue":               mapIssue,
+		"key":                 mapDeployKey,
+		"label":               mapLabel,
+		"organization":        mapOrganization,
+		"pull_request":        mapPullRequest,
+		"repository":          mapRepository,
+		"repositorySelection": mapRepositorySelection,
+		"review":              mapReview,
+		"rule":                mapRule,
+		"sender":              mapSender,
 	}
 	collectionMappers = map[string]collectionMapper{
 		"pages": mapPages,
@@ -49,6 +50,8 @@ func MapWebhook(src map[string]interface{}, eventName string) map[string]interfa
 		prepareDeleteEvent(&src)
 	case "push":
 		preparePushEvent(&src)
+	case "installation_repositories":
+		prepareInstallationRepositories(&src)
 	}
 
 	dest := &map[string]interface{}{}
@@ -155,6 +158,14 @@ func prepareDeleteEvent(src *map[string]interface{}) {
 		"ref":         (*src)["ref"],
 		"ref_type":    (*src)["ref_type"],
 		"pusher_type": (*src)["pusher_type"],
+	}
+}
+
+func prepareInstallationRepositories(src *map[string]interface{}) {
+	(*src)["repositorySelection"] = map[string]interface{}{
+		"selection": (*src)["repository_selection"],
+		"added":     (*src)["repositories_added"],
+		"removed":   (*src)["repositories_removed"],
 	}
 }
 
@@ -289,9 +300,7 @@ func addToCollectionIfFoundAndTransformElements(src map[string]interface{}, srcK
 		}
 	}
 
-	if len(convertedElements) > 0 {
-		(*dest)[remapKey(srcKey)] = convertedElements
-	}
+	(*dest)[remapKey(srcKey)] = convertedElements
 }
 
 func convertToDateTimeString(input interface{}) interface{} {

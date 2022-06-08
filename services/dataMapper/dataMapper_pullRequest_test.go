@@ -343,6 +343,7 @@ func TestPullRequestMapping(t *testing.T) {
 	}
 	expected := map[string]interface{}{
 		"additions":         1,
+		"assignees":         []map[string]interface{}{},
 		"authorAssociation": "OWNER",
 		"base": map[string]interface{}{
 			"label": "Codertocat:master",
@@ -459,6 +460,8 @@ func TestPullRequestMapping(t *testing.T) {
 		"number":              2,
 		"patchUrl":            "https://github.com/Codertocat/Hello-World/pull/2.patch",
 		"rebaseable":          true,
+		"requestedReviewers":  []map[string]interface{}{},
+		"requestedTeams":      []map[string]interface{}{},
 		"state":               "open",
 		"title":               "Update the README with new information.",
 		"updatedAt":           "2019-05-15T15:20:33Z",
