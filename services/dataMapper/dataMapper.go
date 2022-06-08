@@ -5,6 +5,7 @@ import (
 )
 
 type mapper func(map[string]interface{}) map[string]interface{}
+type collectionMapper func([]map[string]interface{}) []map[string]interface{}
 
 var (
 	mappers map[string]mapper = map[string]mapper{
@@ -20,6 +21,7 @@ var (
 		"deployment_status": mapDeploymentStatus,
 		"discussion":        mapDiscussion,
 		"enterprise":        mapEnterprise,
+		"forkee":            mapRepository,
 		"installation":      mapInstallation,
 		"issue":             mapIssue,
 		"key":               mapDeployKey,
@@ -30,6 +32,9 @@ var (
 		"review":            mapReview,
 		"rule":              mapRule,
 		"sender":            mapSender,
+	}
+	collectionMappers = map[string]collectionMapper{
+		"pages": mapPages,
 	}
 )
 
@@ -50,15 +55,40 @@ func MapWebhook(src map[string]interface{}, eventName string) map[string]interfa
 
 	for key, value := range src {
 		mapper, found := mappers[key]
+		if found {
+			convertedValue, ok := value.(map[string]interface{})
+			if ok {
+				mappedValue := mapper(convertedValue)
+				if len(mappedValue) > 0 {
+					(*dest)[remapKey(key)] = mappedValue
+				}
+			}
+		}
+
+		collectionMapper, found := collectionMappers[key]
 		if !found {
 			continue
 		}
-
-		convertedValue, ok := value.(map[string]interface{})
+		convertedValue, ok := value.([]map[string]interface{})
 		if ok {
-			mappedValue := mapper(convertedValue)
-			if len(mappedValue) > 0 {
-				(*dest)[remapKey(key)] = mappedValue
+			mappedValue := collectionMapper(convertedValue)
+			(*dest)[remapKey(key)] = mappedValue
+		} else {
+			convertedValue, ok := value.([]interface{})
+			if ok {
+				// need to proxy this back to a map[string]interface for conversion
+				data := []map[string]interface{}{}
+				for _, element := range convertedValue {
+					el, ok := element.(map[string]interface{})
+					if ok {
+						data = append(data, el)
+					}
+				}
+
+				if len(data) > 0 {
+					mappedValue := collectionMapper(data)
+					(*dest)[remapKey(key)] = mappedValue
+				}
 			}
 		}
 	}

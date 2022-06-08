@@ -73,6 +73,7 @@ var (
 		"original_line":                            "originalLine",
 		"original_position":                        "originalPosition",
 		"original_start_line":                      "originalStartLine",
+		"page_name":                                "pageName",
 		"patch_url":                                "patchUrl",
 		"private":                                  "isPrivate",
 		"pull_request":                             "pullRequest",
