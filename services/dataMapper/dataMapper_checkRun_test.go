@@ -38,7 +38,7 @@ func TestCheckRunMapping(t *testing.T) {
 			"before":      "6113728f27ae82c7b1a177c8d03f9e96e0adf246",
 			"after":       "ec26c3e57ca3a959ca5aad62de7213c562f8c821",
 			"pull_requests": []map[string]interface{}{
-				map[string]interface{}{
+				{
 					"url":    "https://api.github.com/repos/Codertocat/Hello-World/pulls/2",
 					"id":     279147437,
 					"number": 2,
@@ -170,7 +170,7 @@ func TestCheckRunMapping(t *testing.T) {
 			"events": []string{},
 		},
 		"pull_requests": []map[string]interface{}{
-			map[string]interface{}{
+			{
 				"url":    "https://api.github.com/repos/Codertocat/Hello-World/pulls/2",
 				"id":     279147437,
 				"number": 2,
@@ -280,6 +280,31 @@ func TestCheckRunMapping(t *testing.T) {
 			"summary":         "summary",
 			"text":            "text",
 			"title":           "title",
+		},
+		"pullRequests": []map[string]interface{}{
+			{
+				"url":    "https://api.github.com/repos/Codertocat/Hello-World/pulls/2",
+				"id":     279147437,
+				"number": 2,
+				"head": map[string]interface{}{
+					"ref": "changes",
+					"sha": "ec26c3e57ca3a959ca5aad62de7213c562f8c821",
+					"repo": map[string]interface{}{
+						"id":   186853002,
+						"url":  "https://api.github.com/repos/Codertocat/Hello-World",
+						"name": "Hello-World",
+					},
+				},
+				"base": map[string]interface{}{
+					"ref": "master",
+					"sha": "f95f852bd8fca8fcc58a9a2d6c842781e32a215e",
+					"repo": map[string]interface{}{
+						"id":   186853002,
+						"url":  "https://api.github.com/repos/Codertocat/Hello-World",
+						"name": "Hello-World",
+					},
+				},
+			},
 		},
 		"startedAt": "2019-05-15T15:21:12Z",
 		"status":    "queued",

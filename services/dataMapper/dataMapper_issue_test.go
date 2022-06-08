@@ -159,8 +159,6 @@ func TestIssueMapping(t *testing.T) {
 				"default": true,
 				"id":      1362934389,
 				"name":    "bug",
-				"node_id": "MDU6TGFiZWwxMzYyOTM0Mzg5",
-				"url":     "https://api.github.com/repos/Codertocat/Hello-World/labels/bug",
 			},
 		},
 		"milestone": map[string]interface{}{

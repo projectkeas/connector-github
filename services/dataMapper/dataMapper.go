@@ -1,6 +1,8 @@
 package dataMapper
 
-import "time"
+import (
+	"time"
+)
 
 type mapper func(map[string]interface{}) map[string]interface{}
 
@@ -16,6 +18,7 @@ var (
 		"delete":            mapDelete,
 		"deployment":        mapDeployment,
 		"deployment_status": mapDeploymentStatus,
+		"discussion":        mapDiscussion,
 		"enterprise":        mapEnterprise,
 		"installation":      mapInstallation,
 		"issue":             mapIssue,
@@ -227,24 +230,32 @@ func addToCollectionIfFoundAndTransformElements(src map[string]interface{}, srcK
 	if !found || value == nil {
 		return
 	}
-
-	convertedValue, ok := value.([]interface{})
-	if !ok {
-		return
-	}
-
 	convertedElements := []map[string]interface{}{}
 
-	for _, elementInf := range convertedValue {
-		element, ok := elementInf.(map[string]interface{})
-		if !ok {
-			continue
+	convertedValue, ok := value.([]interface{})
+	if ok {
+		for _, elementInf := range convertedValue {
+			element, ok := elementInf.(map[string]interface{})
+			if !ok {
+				continue
+			}
+
+			elementData := transform(element)
+
+			if len(elementData) > 0 {
+				convertedElements = append(convertedElements, elementData)
+			}
 		}
+	} else {
+		convertedValue, ok := value.([]map[string]interface{})
+		if ok {
+			for _, element := range convertedValue {
+				elementData := transform(element)
 
-		elementData := transform(element)
-
-		if len(elementData) > 0 {
-			convertedElements = append(convertedElements, elementData)
+				if len(elementData) > 0 {
+					convertedElements = append(convertedElements, elementData)
+				}
+			}
 		}
 	}
 

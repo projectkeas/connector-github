@@ -46,7 +46,15 @@ func TestAlertMapping(t *testing.T) {
 		"dismissedBy":     "test",
 		"dismissedReason": "test",
 		"fixedAt":         "2020-07-22T14:06:31Z",
-		"number":          10,
+		"instances": []map[string]interface{}{
+			{
+				"ref":         "refs/heads/main",
+				"analysisKey": ".github/workflows/workflow.yml:upload",
+				"environment": "{}",
+				"state":       "open",
+			},
+		},
+		"number": 10,
 		"rule": map[string]interface{}{
 			"description":     "Add the frozen_string_literal comment to the top of files to help transition to frozen string literals by default.",
 			"fullDescription": "Add the frozen_string_literal comment to the top of files to help transition to frozen string literals by default.",
