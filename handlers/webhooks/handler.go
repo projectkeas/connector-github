@@ -17,7 +17,8 @@ func New(server *server.Server) func(c *fiber.Ctx) error {
 			return nil
 		}
 
-		if event == "ping" {
+		if event == "ping" || event == "projects_v2_item" {
+			// We explicitly don't support the projects v2 item whilst its in beta (the hook is :puke:)
 			c.SendStatus(fiber.StatusNoContent)
 			return nil
 		}
