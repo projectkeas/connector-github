@@ -4,7 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/projectkeas/connector-github/handlers/hmac"
 	"github.com/projectkeas/connector-github/handlers/webhooks"
-	"github.com/projectkeas/connector-github/services/eventPublisher"
+	"github.com/projectkeas/sdks-service/eventPublisher"
 	"github.com/projectkeas/sdks-service/server"
 )
 
